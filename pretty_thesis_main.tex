@@ -1,0 +1,81 @@
+%%	pretty_thesis_main.tex
+%	Thad Haines		Template
+% 	Purpose:		Provide alternative to ugly thesis format.
+%	Notes:			Build with LuaLatex, use biber as bibliography backend.
+
+\documentclass[12pt]{report}
+
+%% Document Knowns
+\newcommand{\CAPTitle}{Master Thesis \LaTeX\ Template}
+\newcommand{\Author}{Thad Haines}
+\newcommand{\Degree}{Master of Science in Electrical Engineering}
+\newcommand{\University}{Montana Technological University}
+\newcommand{\Year}{2019}
+\newcommand{\Subject}{thesis template}
+\newcommand{\Keywords}{MT Tech, Thesis Template, \LaTeX }
+
+\input{pretty_preamble}
+
+%% For including only certain parts of document in build, uncomment :
+%\includeonly{frontmatter/glossary} % Optional build modes
+
+\begin{document}
+\Large % for cover font size
+\include{frontmatter/pretty_cover}
+
+% Begin roman numbers after cover
+\pagestyle{fancy}
+\pagenumbering{roman}
+\setcounter{page}{2}
+\fancyfoot{} % clear footer
+\fancyhead[R]{\thepage}
+
+\normalsize
+\setlength\parindent{0cm}
+\onehalfspacing % for nicer look
+
+%% Front matter
+\include{frontmatter/abstract}
+\include{frontmatter/dedication}
+\include{frontmatter/acknowledgments}
+
+%% Table of contents, lists of tables,figures, equations
+% \correctpagenumtoc enables content line to be defined before table or list command is executed
+\renewcommand{\contentsname}{Table of Contents \vspace{-.5em}}
+\correctpagenumtoc{Table of Contents} 
+\tableofcontents
+
+\correctpagenumtoc{List of Tables}
+\listoftables
+
+\correctpagenumtoc{List of Figures}
+\listoffigures
+
+\correctpagenumtoc{List of Equations}
+\listofthesisequations
+
+\onehalfspacing
+\include{frontmatter/glossary}
+
+% Body Format
+\setlength\parindent{0.5in}
+\doublespacing
+\pagenumbering{arabic}
+\setcounter{page}{1} % Arabic Numbers start at the begining of chapter 1
+
+%% Body of thesis goes here
+\include{chapters/chapter01}
+\include{chapters/chapter02}
+
+\chapter{Bibliography}
+\onehalfspacing
+\printbibliography[heading=none]
+
+% Appendix format
+\appendix
+\doublespacing
+
+%% appendicies go here
+\include{appendix/appendixA}
+
+\end{document}

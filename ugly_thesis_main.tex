@@ -1,0 +1,78 @@
+%%	ugly_thesis_main.tex
+%	Thad Haines		Template
+% 	Purpose:		Mirror current required thesis word document.
+%	Notes:			Build with LuaLatex, use biber as bibliography backend.
+
+\documentclass[12pt]{report}
+
+%% Document Knowns
+\newcommand{\CAPTitle}{TECH MASTER THESIS TEMPLATE IN LATEX} % Tech requires ALL CAPS
+\newcommand{\Author}{\mbox{Thad} \mbox{Haines}}
+\newcommand{\Degree}{Master of Science in Electrical Engineering}
+\newcommand{\University}{\mbox{Montana} \mbox{Technological} \mbox{University}}
+\newcommand{\Year}{2019}
+\newcommand{\Subject}{thesis template}
+\newcommand{\Keywords}{MT Tech, Thesis Template, \LaTeX }
+
+\input{ugly_preamble}
+
+%% For including only certain parts of document in build, uncomment :
+%\includeonly{frontmatter/glossary} % Optional build modes
+
+\begin{document}
+\include{frontmatter/cover}
+% Begin numbers after cover
+\pagestyle{fancy}
+\pagenumbering{roman}
+\MTbody % for eye hurt font change
+\setcounter{page}{2}
+\fancyfoot{} % empty footer
+\fancyhead[R]{\thepage}
+
+%% Front Matter
+\setlength\parindent{0cm}
+\include{frontmatter/abstract}
+\include{frontmatter/dedication}
+\include{frontmatter/acknowledgments}
+
+% Document indent
+\setlength\parindent{0.5in}
+%%% Table of contents title is times new roman, body is calibri...
+\renewcommand{\contentsname}{\hfill \MTbody \bf \MTfourteen Table of Contents  \MTtableofContents \hfill } % times new roman...
+\MTten
+\MTtableofContents 
+
+%% Table of contents, lists of tables,figures, equations
+% \correctpagenumtoc enables content line to be defined before table or list command is executed
+\correctpagenumtoc{TABLE OF CONTENTS} %%% 
+\tableofcontents
+
+\MTbody \MTtwelve % return to 12 times new roman 
+\correctpagenumtoc{LIST OF TABLES}
+{\def\numberline#1{Table #1: ~}\listoftables} % numberline redefined for variable space before caption
+
+\correctpagenumtoc{LIST OF FIGURES}
+{\def\numberline#1{Figure #1: ~}\listoffigures}
+
+\correctpagenumtoc{LIST OF EQUATIONS}
+{\def\numberline#1{Equation (#1)~}\listofthesisequations}
+
+\include{frontmatter/glossary}
+\titlespacing*{\chapter}{0pt}{-20pt}{0em}
+\doublespacing
+\pagenumbering{arabic}
+\setcounter{page}{1} % Arabic Numbers start at the begining of chapter 1
+
+%% Body of report goes here
+\include{chapters/chapter01}
+\include{chapters/chapter02}
+
+\chapter{Bibliography}
+\vspace{1em}
+\onehalfspacing
+\printbibliography[heading=none]
+
+%% appendicies go here
+\doublespacing
+\include{appendix/appendixA}
+\end{document}

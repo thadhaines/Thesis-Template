@@ -1,0 +1,252 @@
+%%	ugly_preamble.tex
+%	Thad Haines		Template
+% 	Purpose:		Settings to make format meet requirements.
+%	Notes:			Included by thesis main.
+%					Build with LuaLatex, use biber as bibliography backend.
+%					Bibliography style can be changed below. see ***
+
+\usepackage[document]{ragged2e} % for left justified text
+
+%%% easy reassignment of space between list number and caption
+\newcommand{\spaceAfterLOTnum}{-0.75em}
+\newcommand{\spaceAfterLOFnum}{-1.25em}
+\newcommand{\spaceAfterLOEnum}{4.25em}
+
+% Tech specific formatting
+\usepackage{setspace}
+\setlength{\parindent}{0.5in}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+
+%%% For multiple fonts in one document.
+% Build mode must be lualatex
+\usepackage{fontspec} 
+\usepackage{uarial} 
+\usepackage{anyfontsize}
+\newcommand{\MTfourteen}{\fontsize{14}{16.8}\selectfont}
+\newcommand{\MTthirteen}{\fontsize{13}{15.6}\selectfont}
+\newcommand{\MTtwelve}{\fontsize{12}{14.4}\selectfont}
+\newcommand{\MTeleven}{\fontsize{11}{13.2}\selectfont}
+\newcommand{\MTten}{\fontsize{10}{12.0}\selectfont}
+\newcommand{\MTnine}{\fontsize{9}{10.8}\selectfont}
+\newcommand*{\MTArial}{\setmainfont{Arial}}
+
+% commands for ugly and pretty builds
+\newcommand{\fmAddAs}{part} % front matter added as
+\newcommand{\coverSkip}{10em}
+\newcommand{\tocAbstract}{ABSTRACT} % these are all caps for ugly version
+\newcommand{\tocDedication}{DEDICATION}
+\newcommand{\tocAckno}{ACKNOWLEDGMENTS}
+\newcommand{\tocGlossary}{GLOSSARY OF TERMS}
+
+%%% Page specific format
+\newcommand{\MTcover}{%
+	\MTfourteen
+	\setmainfont{Arial}}
+
+\newcommand{\MTbody}{%for eye hurt
+	\setmainfont{Times New Roman}}
+
+\newcommand{\MTtableofContents}{% for bizarre toc
+	\setmainfont{Calibri}}
+%%%
+
+% for Altering Section titles to desired compact format.
+\usepackage{titlesec}
+
+%%% Adding periods after headings. in body text
+\titleformat{\chapter}
+{\MTfourteen\MTArial\bfseries}
+{\thechapter.}{20pt}{\MTfourteen}
+
+\titleformat{\section}
+{\MTthirteen\MTArial\bfseries}
+{\thesection.}{1em}{\MTthirteen}
+
+\titleformat{\subsection}
+{\MTtwelve\MTArial\bfseries}
+{\thesubsection.}{1em}{}
+
+\titleformat{\subsubsection}
+{\MTeleven\MTArial\bfseries}
+{\thesubsubsection.}{1em}{}
+ 
+%%% First option is logically zero, adjust to wonky word template
+% second optin is space above
+\titlespacing*{\chapter}{0pt}{-20pt}{1em}%0pt}
+\titlespacing{\section}{.25in}{.75em}{0pt}
+\titlespacing{\subsection}{.5in}{.75em}{0pt}
+\titlespacing{\subsubsection}{.75in}{.75em}{0pt}
+\titlespacing{\bibliography}{0pt}{0pt}{0pt}
+
+% Packages for filler text
+\usepackage{blindtext} % for \blindtext -> Loerm ipsum dolor...
+\usepackage{lipsum} % for short lines
+
+% for maths and maths symbols
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{commath}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % for simple \numberthis command to add equations to ...
+
+% For list of equations
+% Required since list of equations not standard in report format
+\usepackage[titles]{tocloft}
+\newcommand{\listequationsname}{List of Equations}
+\newlistof{thesisequations}{loe}{\listequationsname}
+\newcommand{\eqcaption}[1]{
+	\addcontentsline{loe}{thesisequations}{
+		\protect\numberline{\theequation }  #1}\par\vspace{-2.5em}}%
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % for chapter leader dots
+\setlength\cftthesisequationsindent{-.35em}
+
+%%% Add Figure zz: to list of figures 
+\setlength{\cftfigindent}{0pt}  % remove indentation from figures in lof
+\renewcommand{\cftfigpresnum}{Figure }
+\renewcommand{\cftfigaftersnum}{:}
+\renewcommand{\cftfigaftersnumb}{\hspace{\spaceAfterLOFnum}}
+%%% Set number right
+\newlength{\mylen} % a "scratch" length
+\settowidth{\mylen}{\cftfigpresnum\cftfigaftersnum} % extra space
+\addtolength{\cftfignumwidth}{\mylen} % add the extra space
+
+%%% Add Table XX: to list of tables
+\renewcommand\cfttabpresnum{Table }
+\renewcommand{\cfttabaftersnum}{:}
+\renewcommand{\cfttabaftersnumb}{\hspace{\spaceAfterLOTnum}}
+\setlength{\cfttabindent}{0pt}  % remove indentation from tables in lot
+%%% Handle extra space in tof
+\newlength{\mylenb} % a "scratch" length
+\settowidth{\mylenb}{\cfttabpresnum\cfttabaftersnum} % extra space
+\addtolength{\cfttabnumwidth}{\mylenb} % add the extra space
+
+% Front matter incorrectly cast as parts for 'broken toc'
+\renewcommand{\cftpartleader}{\cftdotfill{\cftdotsep}} % for part leader dots
+
+%%% To add white space to sections
+\setlength{\cftchapindent}{.25in}
+\setlength{\cftsecindent}{.5in}
+\setlength{\cftsubsecindent}{.75in}
+\setlength{\cftsubsubsecindent}{1in}
+%%%
+
+%removal of 'chapter change' additional space in lot, lof
+\usepackage{xpatch}
+\makeatletter
+\xpatchcmd{\@chapter}{%
+	\addtocontents{lof}{\protect\addvspace{10\p@}}%
+	\addtocontents{lot}{\protect\addvspace{10\p@}}%
+}{}{}{}
+\makeatother
+
+%%% Handle toc formatting
+% Part
+\setlength{\cftbeforepartskip}{1.5em}
+\renewcommand\cftpartfont{\MTten \bf}
+\renewcommand\cftpartpagefont{\MTten \bf}
+% Chapter
+\renewcommand\cftchapfont{\MTten}
+\renewcommand\cftchappagefont{\MTten}
+% Section
+\renewcommand\cftsecfont{\MTten \it}
+\renewcommand\cftsecpagefont{\MTten \it}
+% SubSection
+\renewcommand\cftsubsecfont{\MTnine}
+\renewcommand\cftsubsecpagefont{\MTnine}
+% SubsubSection
+\renewcommand\cftsubsubsecfont{\MTnine}
+\renewcommand\cftsubsubsecpagefont{\MTnine}
+
+%%% period after every toc secion
+\renewcommand{\cftchapaftersnum}{.}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+
+%%% Spacing of toc chapters and sections
+\setlength{\cftbeforechapskip}{.75em}
+\setlength{\cftbeforesecskip}{.5em}
+\setlength{\cftbeforesubsecskip}{.5em}
+\setlength{\cftbeforesubsubsecskip}{.5em}
+
+%*** Bibliography stuff
+\usepackage[backend=biber,style=ieee, % bibliography style may be changed
+sorting=nyt % sorts by author, year, title
+]{biblatex}
+\addbibresource{biliography.bib}
+\nocite{*} % include non referenced citations
+
+% For figure usage and linking
+\usepackage{graphicx}
+\graphicspath{ {figures/} } % sets default graphic path
+
+% Caption formating footnotesize ~ 10 pt in a 12 pt document
+\usepackage[font={footnotesize, bf}]{caption}
+
+% For table formatting
+\usepackage{booktabs}
+\renewcommand{\arraystretch}{1.2}
+\usepackage{floatrow}
+\floatsetup[table]{capposition=top} % put table captions on top of tables
+
+% For header and footer control:
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\rhead{\thepage}
+% Redefine the plain page style so plain pages are same as fancy
+\fancypagestyle{plain}{%
+	\fancyhf{}%
+	\rhead{\thepage}%
+	\renewcommand{\headrulewidth}{0pt}% Line at the header invisible
+	\renewcommand{\footrulewidth}{0pt}% Line at the footer nonvisible
+}
+
+% configurations of counters
+\usepackage{chngcntr}
+\setcounter{tocdepth}{4} % required to show subsubsections in toc
+\setcounter{secnumdepth}{3} % required for x.x.x.x sections
+
+% Command to correctly add page numbers to toc, lof, lot, loe... AS PARTS
+\newcommand{\correctpagenumtoc}[1]{%
+	\cleardoublepage
+	\phantomsection
+	\addcontentsline{toc}{\fmAddAs}{\MTten #1}} % front matter add as...
+
+
+%%% Disable chapter number in equations, tables, and figures
+\counterwithout{equation}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{figure}{chapter}
+% Ensure Tech specified numbering format of tables,figures, equations
+\renewcommand{\thetable}{\Roman{table}} % cap roman on tables
+\renewcommand{\thefigure}{\arabic{figure}} % Single digits on figures
+\renewcommand{\theequation}{\arabic{equation}}% Single digits on eq
+%%%%
+
+% Fix header height
+\setlength{\headheight}{15pt}
+
+% Silence warning that is known to not be a 'thing' when using ieee bibliography
+% https://tex.stackexchange.com/questions/451192/file-english-ieee-lbx-not-found-ignoring-mapping-english-english-ieee
+\usepackage{silence}
+\WarningFilter{biblatex}{File 'english-ieee.lbx'}
+
+% Packages enables content to function as links and describe default pdf behavior
+% Should apparently be loaded last...
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+	pdftitle={\CAPTitle},
+	pdfauthor={\Author},
+	pdfsubject={\Subject},
+	pdfkeywords={\Keywords},
+	bookmarksnumbered=true,     
+	bookmarksopen=true,         
+	bookmarksopenlevel=3,       
+	colorlinks=false,            
+	pdfstartview=Fit,           
+	pdfpagemode=UseOutlines,   
+	pdfpagelayout=OneColumn
+}
