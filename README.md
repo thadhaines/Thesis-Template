@@ -25,3 +25,7 @@ Use whichever version seems like a good idea...
 Due to the flexibility of LaTeX, one can work in the pretty version and easily export the same report to the ugly version.
 
 NOTE: This template is designed to be built with LuaLaTeX and use biber as a bibliography backend.
+
+An intro to LaTeX can be found [here][1].
+
+[1]: https://www.overleaf.com/learn/latex/Free_online_introduction_to_LaTeX_(part_1)
