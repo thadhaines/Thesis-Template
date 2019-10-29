@@ -5,12 +5,20 @@
 %					Build with LuaLatex, use biber as bibliography backend.
 %					Bibliography style can be changed below. see ***
 
+%	Alteration History:		10/05/19	Added numbering to paragraphs to mimic subsubsubsections
+%							10/11/19	Addition of lscape / pdflscape for landscape possibilities
+%							10/17/19	Addition of minted package for purty code~
+
+
 % Tech specific formatting
 \usepackage{setspace}
 \setlength{\parindent}{0.5in}
 \usepackage{indentfirst}
 \usepackage{geometry}
 \geometry{letterpaper, margin=1in}
+
+%\usepackage{lscape} % for landscape pages
+\usepackage{pdflscape} % for landscape pages - rotates digital page so text appears 'normal'
 
 % pretty commands for dual build
 \newcommand{\fmAddAs}{chapter} % what to add aditional toc as (ugly = parts, pretty = chap)
@@ -23,9 +31,11 @@
 
 %*** Bibliography stuff
 \usepackage[backend=biber,style=ieee, % bibliography style may be changed
-sorting=nyt % sorts by author, year, title
+sorting=nyt, % sorts by author, year, title
+autocite=inline, sortcites=true, labelnumber=true, % for compressed cites
+dashed=false, % show repeated authors (i.e. don't blank out names)
 ]{biblatex}
-\addbibresource{biliography.bib}
+\addbibresource{bibliography.bib}
 \nocite{*} % include non referenced citations
 
 % for Altering Section titles to desired compact format.
@@ -93,6 +103,10 @@ sorting=nyt % sorts by author, year, title
 \usepackage{floatrow}
 \floatsetup[table]{capposition=top} % put table captions on top of tables
 
+% for code listings with color 10/17/19
+\usepackage{minted}
+\usepackage{xcolor}
+
 % For header and footer control:
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -110,8 +124,16 @@ sorting=nyt % sorts by author, year, title
 
 % configurations of counters
 \usepackage{chngcntr}
-\setcounter{tocdepth}{4} % required to show subsubsections in toc
-\setcounter{secnumdepth}{3} % required for x.x.x.x sections
+\setcounter{tocdepth}{5} % required to show subsubsections in toc
+\setcounter{secnumdepth}{5} % required for x.x.x.x sections % Changed from 3 - 10/5/19
+
+%%% Added for paragraph numbering to be subsubsection
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}
+\makeatother
 
 % Command to correctly add page numbers to toc, lof, lot, loe...
 \newcommand{\correctpagenumtoc}[1]{%

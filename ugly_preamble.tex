@@ -5,7 +5,14 @@
 %					Build with LuaLatex, use biber as bibliography backend.
 %					Bibliography style can be changed below. see ***
 
+%	Alteration History:		10/05/19	Added numbering to paragraphs to mimic subsubsubsections
+%							10/11/19	Addition of lscape / pdflscape for landscape possibilities
+%							10/17/19	Addition of minted package for purty code~
+
 \usepackage[document]{ragged2e} % for left justified text
+
+%\usepackage{lscape} % for landscape pages
+\usepackage{pdflscape} % for landscape pages - rotates digital page so text appears 'normal'
 
 %%% easy reassignment of space between list number and caption
 \newcommand{\spaceAfterLOTnum}{-0.75em}
@@ -71,6 +78,11 @@
 \titleformat{\subsubsection}
 {\MTeleven\MTArial\bfseries}
 {\thesubsubsection.}{1em}{}
+
+% Added 10/5/29
+\titleformat{\paragraph}
+{\MTeleven\MTArial\bfseries}
+{\theparagraph.}{1em}{}
  
 %%% First option is logically zero, adjust to wonky word template
 % second optin is space above
@@ -78,6 +90,7 @@
 \titlespacing{\section}{.25in}{.75em}{0pt}
 \titlespacing{\subsection}{.5in}{.75em}{0pt}
 \titlespacing{\subsubsection}{.75in}{.75em}{0pt}
+\titlespacing{\paragraph}{1in}{.75em}{0pt} % 10/5/19 
 \titlespacing{\bibliography}{0pt}{0pt}{0pt}
 
 % Packages for filler text
@@ -124,12 +137,13 @@
 % Front matter incorrectly cast as parts for 'broken toc'
 \renewcommand{\cftpartleader}{\cftdotfill{\cftdotsep}} % for part leader dots
 
-%%% To add white space to sections
+%%% To add white space to sections in TOC
 \setlength{\cftchapindent}{.25in}
 \setlength{\cftsecindent}{.5in}
 \setlength{\cftsubsecindent}{.75in}
 \setlength{\cftsubsubsecindent}{1in}
 %%%
+\setlength{\cftparaindent}{1.25in}
 
 %removal of 'chapter change' additional space in lot, lof
 \usepackage{xpatch}
@@ -157,12 +171,18 @@
 % SubsubSection
 \renewcommand\cftsubsubsecfont{\MTnine}
 \renewcommand\cftsubsubsecpagefont{\MTnine}
+% Paragraph added 10/5/19
+\renewcommand\cftparafont{\MTnine}
+\renewcommand\cftparapagefont{\MTnine}
+
 
 %%% period after every toc secion
 \renewcommand{\cftchapaftersnum}{.}
 \renewcommand{\cftsecaftersnum}{.}
 \renewcommand{\cftsubsecaftersnum}{.}
 \renewcommand{\cftsubsubsecaftersnum}{.}
+% 10/5/19 - addition of paragraph periods
+\renewcommand{\cftparaaftersnum}{.}
 
 %%% Spacing of toc chapters and sections
 \setlength{\cftbeforechapskip}{.75em}
@@ -170,11 +190,16 @@
 \setlength{\cftbeforesubsecskip}{.5em}
 \setlength{\cftbeforesubsubsecskip}{.5em}
 
+% And paragraphs (subsubsubsections) added 10/5/19
+\setlength{\cftbeforeparaskip}{.5em}
+
 %*** Bibliography stuff
 \usepackage[backend=biber,style=ieee, % bibliography style may be changed
-sorting=nyt % sorts by author, year, title
+sorting=nyt, % sorts by author, year, title
+autocite=inline, sortcites=true, labelnumber=true, % for compressed cites
+dashed=false, % show repeated authors (i.e. don't blank out names)
 ]{biblatex}
-\addbibresource{biliography.bib}
+\addbibresource{bibliography.bib}
 \nocite{*} % include non referenced citations
 
 % For figure usage and linking
@@ -190,6 +215,10 @@ sorting=nyt % sorts by author, year, title
 \usepackage{floatrow}
 \floatsetup[table]{capposition=top} % put table captions on top of tables
 
+% for code listings with color 10/17/19
+\usepackage{minted}
+\usepackage{xcolor}
+
 % For header and footer control:
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -204,10 +233,10 @@ sorting=nyt % sorts by author, year, title
 	\renewcommand{\footrulewidth}{0pt}% Line at the footer nonvisible
 }
 
-% configurations of counters
+% configurations of counters - Changed 10/5/19 to 5 from 4 and 3 respectively.
 \usepackage{chngcntr}
-\setcounter{tocdepth}{4} % required to show subsubsections in toc
-\setcounter{secnumdepth}{3} % required for x.x.x.x sections
+\setcounter{tocdepth}{5} % required to show subsubsections in toc %4
+\setcounter{secnumdepth}{5} % required for x.x.x.x sections %3 
 
 % Command to correctly add page numbers to toc, lof, lot, loe... AS PARTS
 \newcommand{\correctpagenumtoc}[1]{%
